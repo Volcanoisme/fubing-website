@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>观点辩论 - 浮冰 Float | 多元观点理性碰撞</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; color: #333; background: #f8fdff; }
+  a { text-decoration: none; color: inherit; }
+  
+  /* 导航 */
+  .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e1f5fe; padding: 0 40px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; color: #0288d1; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { font-size: 14px; color: #555; transition: color 0.3s; }
+  .nav-links a:hover { color: #0288d1; }
+  
+  /* Hero */
+  .hero { background: linear-gradient(135deg, #01579b, #4fc3f7);
+    padding: 140px 40px 80px; text-align: center; color: white; }
+  .hero-icon { font-size: 64px; margin-bottom: 20px; }
+  .hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+  .hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+  
+  /* 内容区 */
+  .section { max-width: 900px; margin: 0 auto; padding: 80px 40px; }
+  .section h2 { font-size: 28px; font-weight: 700; color: #0288d1; margin-bottom: 32px; text-align: center; }
+  .section p.desc { font-size: 16px; line-height: 1.8; color: #555; margin-bottom: 40px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto; }
+  
+  /* 功能列表 */
+  .feature-list { display: flex; flex-direction: column; gap: 24px; }
+  .feature-item { background: white; border-radius: 16px; padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(2,136,209,0.08); border-left: 4px solid #01579b; }
+  .feature-item h3 { font-size: 18px; font-weight: 700; color: #01579b; margin-bottom: 8px; }
+  .feature-item p { font-size: 15px; color: #666; line-height: 1.7; }
+  
+  /* 截图说明 */
+  .screenshot-placeholder { background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+    border-radius: 16px; padding: 60px 40px; text-align: center; margin-top: 40px; }
+  .screenshot-placeholder p { color: #0288d1; font-size: 16px; }
+  
+  /* 返回按钮 */
+  .back-link { display: inline-block; margin-top: 40px; padding: 12px 32px;
+    background: #01579b; color: white; border-radius: 24px; font-size: 15px; font-weight: 600;
+    transition: opacity 0.3s; }
+  .back-link:hover { opacity: 0.85; }
+  
+  /* Footer */
+  .footer { background: #e1f5fe; padding: 48px 40px 24px; text-align: center; color: #0288d1; }
+  .footer p { font-size: 13px; opacity: 0.7; margin-top: 12px; }
+  
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 28px; }
+    .section { padding: 60px 20px; }
+    .nav-links { display: none; }
+  }
+</style>
+<meta name="description" content="浮冰观点辩论板块鼓励多元观点平等表达，告别非黑即白的撕裂式讨论，让不同声音理性碰撞。">
+<meta property="og:title" content="观点辩论 - 浮冰 Float | 多元观点理性碰撞">
+<meta property="og:description" content="浮冰观点辩论板块鼓励多元观点平等表达，告别非黑即白的撕裂式讨论，让不同声音理性碰撞。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="观点辩论 - 浮冰 Float | 多元观点理性碰撞">
+<meta name="twitter:description" content="浮冰观点辩论板块鼓励多元观点平等表达，告别非黑即白的撕裂式讨论，让不同声音理性碰撞。">
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <!-- 水面 -->
+  <line x1="2" y1="22" x2="38" y2="22" stroke="#0288d1" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- 水下冰体 -->
+  <polygon points="8,22 20,38 32,22" fill="#b3e5fc" stroke="#0288d1" stroke-width="1.2"/>
+  <!-- 水面冰山尖 -->
+  <polygon points="12,22 20,6 28,22" fill="#e1f5fe" stroke="#0288d1" stroke-width="1.2"/>
+  <!-- 冰山纹理线 -->
+  <line x1="20" y1="6" x2="20" y2="38" stroke="#0288d1" stroke-width="0.6" opacity="0.4"/>
+  <!-- 浪花 -->
+  <path d="M2,22 Q6,19 10,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+  <path d="M30,22 Q34,19 38,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+</svg>
+
+    浮冰 Float
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">关于浮冰</a></li>
+    <li><a href="index.html#features">产品功能</a></li>
+    <li><a href="index.html#online-offline">线上线下</a></li>
+    <li><a href="index.html#contact">联系我们</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-icon">⚖️</div>
+  <h1>多元观点，理性碰撞</h1>
+  <p>浮冰 Float · 女性友好社交平台</p>
+</section>
+
+<!-- 功能介绍 -->
+<section class="section">
+  <h2>功能介绍</h2>
+  <p class="desc">辩论板块鼓励多元观点的理性表达。我们相信，不同声音的碰撞能让每个人看到更完整的世界。告别非黑即白的撕裂，在这里学会理解差异。</p>
+  <div class="feature-list">
+
+    <div class="feature-item">
+      <h3>多元观点</h3>
+      <p>同一话题下，不同观点平等展示，拒绝一言堂。</p>
+    </div>
+
+    <div class="feature-item">
+      <h3>理性氛围</h3>
+      <p>严格的社区规范，鼓励理性讨论，拒绝情绪化攻击。</p>
+    </div>
+
+    <div class="feature-item">
+      <h3>投票互动</h3>
+      <p>用户可以为认同的观点投票，形成更有代表性的共识。</p>
+    </div>
+
+    <div class="feature-item">
+      <h3>精选辩题</h3>
+      <p>每周精选有深度、有争议的社会话题，激发思考。</p>
+    </div>
+
+  </div>
+  <div class="screenshot-placeholder">
+    <p>📱 页面截图示意：辩论界面展示正反方观点和实时投票结果。</p>
+  </div>
+  <div style="text-align:center;">
+    <a href="index.html" class="back-link">← 返回首页</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div style="font-size:20px; font-weight:700; margin-bottom:8px;">
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <!-- 水面 -->
+  <line x1="2" y1="22" x2="38" y2="22" stroke="#0288d1" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- 水下冰体 -->
+  <polygon points="8,22 20,38 32,22" fill="#b3e5fc" stroke="#0288d1" stroke-width="1.2"/>
+  <!-- 水面冰山尖 -->
+  <polygon points="12,22 20,6 28,22" fill="#e1f5fe" stroke="#0288d1" stroke-width="1.2"/>
+  <!-- 冰山纹理线 -->
+  <line x1="20" y1="6" x2="20" y2="38" stroke="#0288d1" stroke-width="0.6" opacity="0.4"/>
+  <!-- 浪花 -->
+  <path d="M2,22 Q6,19 10,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+  <path d="M30,22 Q34,19 38,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+</svg>
+
+    浮冰 Float
+  </div>
+  <p>© 2026 浮冰 Float. All rights reserved. 女性友好社交平台</p>
+</footer>
+
+</body>
+</html>

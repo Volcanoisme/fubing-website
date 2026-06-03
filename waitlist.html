@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加入等待列表 - 浮冰 Float | 女性友好社交平台</title>
+<meta name="description" content="加入浮冰等待列表，成为首批用户，抢先体验女性友好社交新方式。">
+<meta property="og:title" content="加入等待列表 - 浮冰 Float">
+<meta property="og:description" content="加入浮冰等待列表，成为首批用户，抢先体验女性友好社交新方式。">
+<meta property="og:type" content="website">
+<style>
+  * { margin:0; padding:0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+         color: #333; background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 50%, #4fc3f7 100%);
+         min-height: 100vh; }
+  a { text-decoration: none; color: inherit; }
+
+  /* 导航 */
+  .navbar { position: fixed; top:0; left:0; right:0; z-index: 1000;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e1f5fe; padding: 0 48px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px;
+    font-size: 20px; font-weight: 700; color: #0288d1; }
+
+  /* 表单区 */
+  .main { max-width: 600px; margin: 0 auto; padding: 120px 24px 80px; }
+  .form-card { background: white; border-radius: 24px; padding: 48px 40px;
+    box-shadow: 0 8px 40px rgba(2,136,209,0.15); }
+  .form-header { text-align: center; margin-bottom: 40px; }
+  .form-header h1 { font-size: 32px; font-weight: 800; color: #01579b; margin-bottom: 12px; }
+  .form-header p { font-size: 16px; color: #777; line-height: 1.7; }
+
+  .form-group { margin-bottom: 28px; }
+  .form-group label { display: block; font-size: 15px; font-weight: 600; color: #0288d1;
+    margin-bottom: 10px; }
+  .form-group .required { color: #e53935; margin-left: 4px; }
+  
+  /* 单选按钮组 */
+  .radio-group { display: flex; flex-wrap: wrap; gap: 12px; }
+  .radio-option { position: relative; }
+  .radio-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-option label { display: inline-block; padding: 10px 24px; border-radius: 24px;
+    border: 2px solid #e1f5fe; font-size: 14px; color: #555; cursor: pointer;
+    transition: all 0.3s; user-select: none; }
+  .radio-option input:checked + label { background: #0288d1; color: white; border-color: #0288d1; }
+  .radio-option label:hover { border-color: #4fc3f7; }
+
+  /* 多选按钮组 */
+  .checkbox-group { display: flex; flex-direction: column; gap: 12px; }
+  .checkbox-option { position: relative; }
+  .checkbox-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .checkbox-option label { display: flex; align-items: center; gap: 12px; padding: 14px 20px;
+    border-radius: 14px; border: 2px solid #e1f5fe; font-size: 14px; color: #555;
+    cursor: pointer; transition: all 0.3s; user-select: none; }
+  .checkbox-option label::before { content: ''; width: 22px; height: 22px; border-radius: 6px;
+    border: 2px solid #b3e5fc; flex-shrink: 0; transition: all 0.3s; }
+  .checkbox-option input:checked + label { border-color: #0288d1; background: #e1f5fe; }
+  .checkbox-option input:checked + label::before { background: #0288d1; border-color: #0288d1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: 14px; background-repeat: no-repeat; background-position: center; }
+  .checkbox-option label:hover { border-color: #4fc3f7; }
+
+  /* 提交按钮 */
+  .submit-btn { width: 100%; padding: 16px; border: none; border-radius: 28px;
+    background: linear-gradient(135deg, #0288d1, #0277bd); color: white;
+    font-size: 17px; font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 16px rgba(2,136,209,0.3); margin-top: 12px; }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(2,136,209,0.4); }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* 成功提示 */
+  .success-msg { display: none; text-align: center; padding: 40px 20px; }
+  .success-msg .icon { font-size: 64px; margin-bottom: 20px; }
+  .success-msg h2 { font-size: 28px; font-weight: 800; color: #0288d1; margin-bottom: 12px; }
+  .success-msg p { font-size: 16px; color: #777; line-height: 1.7; }
+  .back-btn { display: inline-block; margin-top: 32px; padding: 12px 36px;
+    background: #e1f5fe; color: #0288d1; border-radius: 24px; font-size: 15px; font-weight: 600;
+    transition: background 0.3s; }
+  .back-btn:hover { background: #b3e5fc; }
+
+  .footer { text-align: center; padding: 40px 24px; color: #0288d1; font-size: 13px; opacity: 0.7; }
+
+  @media (max-width: 600px) {
+    .form-card { padding: 32px 24px; }
+    .form-header h1 { font-size: 26px; }
+    .radio-group { flex-direction: column; }
+    .navbar { padding: 0 20px; }
+    .main { padding: 100px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="36" height="36">
+      <line x1="2" y1="22" x2="38" y2="22" stroke="#0288d1" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <polygon points="8,22 20,38 32,22" fill="#b3e5fc" stroke="#0288d1" stroke-width="1.2"/>
+      <polygon points="12,22 20,6 28,22" fill="#e1f5fe" stroke="#0288d1" stroke-width="1.2"/>
+      <line x1="20" y1="6" x2="20" y2="38" stroke="#0288d1" stroke-width="0.6" opacity="0.4"/>
+    </svg>
+    浮冰 <span style="font-weight:400;font-size:15px;color:#4fc3f7;">Float</span>
+  </a>
+</nav>
+
+<!-- 表单主体 -->
+<main class="main">
+  <div class="form-card" id="formCard">
+    <div class="form-header">
+      <h1>加入浮冰等待列表</h1>
+      <p>成为浮冰首批用户，抢先体验女性友好社交新方式<br>我们会通过邮件通知你上线消息</p>
+    </div>
+
+    <form id="waitlistForm" onsubmit="handleSubmit(event)">
+      <!-- 性别 -->
+      <div class="form-group">
+        <label>您的性别 <span class="required">*</span></label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="gender-female" name="gender" value="女性" required>
+            <label for="gender-female">女性</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="gender-male" name="gender" value="男性">
+            <label for="gender-male">男性</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="gender-other" name="gender" value="不愿透露">
+            <label for="gender-other">不愿透露</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 最期待的版块（多选） -->
+      <div class="form-group">
+        <label>您对以下哪些版块更期待？ <span class="required">*</span>（可多选）</label>
+        <div class="checkbox-group">
+          <div class="checkbox-option">
+            <input type="checkbox" id="sect-forum" name="sections" value="匿名论坛">
+            <label for="sect-forum">匿名论坛 - 无压力表达真实想法</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" id="sect-hot" name="sections" value="热点榜">
+            <label for="sect-hot">热点榜 - 每日女性关注话题</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" id="sect-debate" name="sections" value="观点辩论">
+            <label for="sect-debate">观点辩论 - 多元观点理性碰撞</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" id="sect-mutual" name="sections" value="互助前台">
+            <label for="sect-mutual">互助前台 - 公开互助传递力量</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" id="sect-offline" name="sections" value="线下活动">
+            <label for="sect-offline">线下活动 - 从线上到线下相连</label>
+          </div>
+          <div class="checkbox-option">
+            <input type="checkbox" id="sect-audit" name="sections" value="内容审核">
+            <label for="sect-audit">内容审核 - 安全保障机制</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 邮箱 -->
+      <div class="form-group">
+        <label>邮箱地址 <span class="required">*</span></label>
+        <input type="email" name="email" required placeholder="your@email.com"
+          style="width:100%;padding:14px 18px;border-radius:14px;border:2px solid #e1f5fe;
+                 font-size:15px;color:#333;outline:none;transition:border-color 0.3s;"
+          onfocus="this.style.borderColor='#0288d1'"
+          onblur="this.style.borderColor='#e1f5fe'">
+      </div>
+
+      <!-- 城市 -->
+      <div class="form-group">
+        <label>所在城市</label>
+        <input type="text" name="city" placeholder="例如：广州、上海、北京"
+          style="width:100%;padding:14px 18px;border-radius:14px;border:2px solid #e1f5fe;
+                 font-size:15px;color:#333;outline:none;transition:border-color 0.3s;"
+          onfocus="this.style.borderColor='#0288d1'"
+          onblur="this.style.borderColor='#e1f5fe'">
+      </div>
+
+      <button type="submit" class="submit-btn">提交加入等待列表</button>
+    </form>
+  </div>
+
+  <!-- 成功提示（默认隐藏） -->
+  <div class="form-card success-msg" id="successMsg">
+    <div class="icon">&#127881;</div>
+    <h2>提交成功！</h2>
+    <p>感谢你的关注，我们已经记录你的信息<br>浮冰上线后会第一时间通知你</p>
+    <a href="index.html" class="back-btn">&#8592; 返回首页</a>
+  </div>
+</main>
+
+<div class="footer">
+  <p>&copy; 2026 浮冰 Float. All rights reserved. 女性友好社交平台</p>
+</div>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // 获取表单数据
+    const form = e.target;
+    const gender = form.querySelector('input[name="gender"]:checked');
+    const sections = form.querySelectorAll('input[name="sections"]:checked');
+    const email = form.querySelector('input[name="email"]').value;
+
+    // 验证
+    if (!gender) { alert('请选择性别'); return; }
+    if (sections.length === 0) { alert('请至少选择一个期待的版块'); return; }
+    if (!email) { alert('请输入邮箱地址'); return; }
+
+    // 这里接后端 API 或腾讯问卷
+    // 目前先显示成功提示
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+
+    // TODO: 接入后端
+    // fetch('/api/waitlist', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ gender: gender.value, sections: [...sections].map(s=>s.value), email, city })
+    // });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浮冰 Float - 女性友好社交平台 | 匿名表达，安全社交</title>
+<style>
+  * { margin:0; padding:0; box-sizing: border-box; }
+  body { font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif; color: #333; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ========== 导航 ========== */
+  .navbar {
+    position: fixed; top:0; left:0; right:0; z-index: 1000;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e1f5fe; padding: 0 48px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: box-shadow 0.3s;
+  }
+  .navbar.scrolled { box-shadow: 0 2px 20px rgba(2,136,209,0.1); }
+  .nav-logo { display: flex; align-items: center; gap: 10px;
+    font-size: 20px; font-weight: 700; color: #0288d1; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 14px; color: #555; transition: color 0.3s; position: relative; }
+  .nav-links a:hover { color: #0288d1; }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
+    background:#0288d1; transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width:100%; }
+  .nav-cta {
+    background: #0288d1; color:white !important; padding: 8px 20px;
+    border-radius: 20px; font-size: 14px !important; font-weight: 600;
+    transition: background 0.3s !important;
+  }
+  .nav-cta:hover { background: #0277bd; }
+  .nav-cta::after { display:none !important; }
+
+  /* ========== Hero ========== */
+  .hero {
+    background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 40%, #4fc3f7 100%);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 80px 48px 60px; position: relative; overflow: hidden;
+  }
+  .hero-inner { display: flex; align-items: center; gap: 80px; max-width: 1200px; width: 100%; }
+  .hero-text { flex:1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(2,136,209,0.1); color: #0288d1;
+    padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: 56px; font-weight: 800; line-height: 1.15;
+    background: linear-gradient(135deg, #01579b, #0288d1);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 20px;
+  }
+  .hero h1 span { display: block; font-size: 28px; font-weight: 600;
+    background: linear-gradient(135deg, #0277bd, #4fc3f7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-top: 8px; }
+  .hero-sub { font-size: 18px; color: #555; line-height: 1.7; margin-bottom: 36px; max-width: 480px; }
+  .hero-btns { display: flex; gap: 16px; }
+  .btn-primary {
+    background: linear-gradient(135deg, #0288d1, #0277bd);
+    color: white; padding: 14px 36px; border-radius: 28px;
+    font-size: 16px; font-weight: 600; transition: transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 16px rgba(2,136,209,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(2,136,209,0.4); }
+  .btn-outline {
+    background: white; color: #0288d1; padding: 14px 36px;
+    border-radius: 28px; font-size: 16px; font-weight: 600;
+    border: 2px solid #0288d1; transition: background 0.3s;
+  }
+  .btn-outline:hover { background: #e1f5fe; }
+
+  /* 手机模拟 */
+  .hero-phone {
+    width: 300px; flex-shrink: 0; perspective: 800px;
+  }
+  .phone-frame {
+    background: #fff; border-radius: 36px; padding: 12px;
+    box-shadow: 0 20px 60px rgba(2,136,209,0.2);
+    transform: rotateY(-8deg) rotateX(2deg);
+    transition: transform 0.5s;
+  }
+  .phone-screen {
+    background: linear-gradient(180deg, #e1f5fe, #fff);
+    border-radius: 28px; padding: 24px 18px; height: 520px; overflow: hidden;
+  }
+  .phone-header { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .phone-avatar {
+    width:36px; height:36px; border-radius:50%;
+    background: linear-gradient(135deg, #4fc3f7, #0288d1);
+  }
+  .phone-name { font-size:13px; font-weight:700; color:#01579b; }
+  .phone-time { font-size:11px; color:#999; margin-left:auto; }
+  .phone-post {
+    background: white; border-radius: 14px; padding: 14px; margin-bottom: 14px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+  .phone-post-title { font-size:13px; font-weight:700; color:#0288d1; margin-bottom:6px; }
+  .phone-post-text { font-size:11px; color:#666; line-height:1.6; }
+  .phone-post-meta { display:flex; gap:14px; margin-top:8px; }
+  .phone-post-meta span { font-size:10px; color:#999; }
+  .phone-fab {
+    position: absolute; bottom: 24px; right: 24px;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, #0288d1, #4fc3f7);
+    box-shadow: 0 4px 12px rgba(2,136,209,0.4);
+  }
+
+  /* ========== 关于浮冰 ========== */
+  .section { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-tag {
+    display: inline-block; background: #e1f5fe; color: #0288d1;
+    padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .section-title { font-size: 36px; font-weight: 800; color: #01579b; line-height: 1.3; }
+  .section-sub { font-size: 16px; color: #777; margin-top: 12px; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .about-text h3 { font-size: 22px; font-weight: 700; color: #0288d1; margin-bottom: 16px; }
+  .about-text p { font-size: 15px; color: #666; line-height: 1.8; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .stat-card {
+    background: white; border-radius: 16px; padding: 28px 24px;
+    box-shadow: 0 2px 16px rgba(2,136,209,0.08); text-align: center;
+    border: 1px solid #e1f5fe;
+  }
+  .stat-num { font-size: 36px; font-weight: 800; color: #0288d1; }
+  .stat-label { font-size: 13px; color: #888; margin-top: 6px; }
+
+  /* ========== 产品功能 ========== */
+  .features { background: #f8fdff; }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .feature-card {
+    background: white; border-radius: 20px; padding: 36px 28px;
+    box-shadow: 0 2px 16px rgba(2,136,209,0.08);
+    border: 1px solid #e1f5fe;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer; display: block;
+  }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(2,136,209,0.18);
+  }
+  .feature-icon {
+    width: 56px; height: 56px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; margin-bottom: 20px;
+  }
+  .feature-card h3 { font-size: 20px; font-weight: 700; color: #01579b; margin-bottom: 10px; }
+  .feature-card p { font-size: 14px; color: #777; line-height: 1.7; }
+  .feature-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 16px; font-size: 14px; font-weight: 600; color: #0288d1;
+  }
+
+  /* ========== 线上线下对比 ========== */
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .compare-card {
+    border-radius: 20px; padding: 40px 32px;
+    box-shadow: 0 2px 16px rgba(2,136,209,0.08);
+  }
+  .compare-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
+  .compare-card ul { list-style: none; }
+  .compare-card li {
+    padding: 10px 0; font-size: 15px; line-height: 1.7;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .compare-card li:last-child { border-bottom: none; }
+
+  /* ========== CTA ========== */
+  .cta {
+    background: linear-gradient(135deg, #0288d1, #01579b);
+    border-radius: 24px; padding: 72px 48px; text-align: center; color: white;
+    max-width: 1100px; margin: 0 auto 100px;
+  }
+  .cta h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+  .cta p { font-size: 17px; opacity: 0.9; margin-bottom: 36px; }
+  .cta-btn {
+    background: white; color: #0288d1; padding: 16px 48px;
+    border-radius: 28px; font-size: 17px; font-weight: 700;
+    display: inline-block; transition: transform 0.2s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); }
+
+  /* ========== Footer ========== */
+  .footer {
+    background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
+    padding: 64px 48px 32px; color: #0288d1;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand p { font-size: 14px; color: #555; margin-top: 12px; line-height: 1.7; max-width: 280px; }
+  .footer h4 { font-size: 15px; font-weight: 700; margin-bottom: 20px; color: #01579b; }
+  .footer ul { list-style: none; }
+  .footer li { margin-bottom: 12px; }
+  .footer a { font-size: 14px; color: #666; transition: color 0.3s; }
+  .footer a:hover { color: #0288d1; }
+  .footer-bottom {
+    border-top: 1px solid rgba(2,136,209,0.15);
+    padding-top: 24px; display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: #999;
+  }
+
+  /* 响应式 */
+  @media (max-width: 900px) {
+    .hero-inner { flex-direction: column; text-align: center; gap: 40px; }
+    .hero h1 { font-size: 38px; }
+    .hero h1 span { font-size: 22px; }
+    .hero-sub { margin: 0 auto 36px; }
+    .hero-btns { justify-content: center; }
+    .hero-phone { width: 240px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .section { padding: 60px 24px; }
+    .hero { padding: 80px 24px 40px; }
+  }
+</style>
+<meta name="description" content="浮冰是专为女性设计的友好社交平台，提供匿名论坛、热点榜、观点辩论、互助前台、线下活动等功能，让每一位女性都能在安全环境中自由表达。">
+<meta property="og:title" content="浮冰 Float - 女性友好社交平台 | 匿名表达，安全社交">
+<meta property="og:description" content="浮冰是专为女性设计的友好社交平台，提供匿名论坛、热点榜、观点辩论、互助前台、线下活动等功能，让每一位女性都能在安全环境中自由表达。">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="浮冰 Float - 女性友好社交平台 | 匿名表达，安全社交">
+<meta name="twitter:description" content="浮冰是专为女性设计的友好社交平台，提供匿名论坛、热点榜、观点辩论、互助前台、线下活动等功能，让每一位女性都能在安全环境中自由表达。">
+</head>
+<body>
+
+<!-- ========== 导航 ========== -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">
+    
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <line x1="2" y1="22" x2="38" y2="22" stroke="#0288d1" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <polygon points="8,22 20,38 32,22" fill="#b3e5fc" stroke="#0288d1" stroke-width="1.2"/>
+  <polygon points="12,22 20,6 28,22" fill="#e1f5fe" stroke="#0288d1" stroke-width="1.2"/>
+  <line x1="20" y1="6" x2="20" y2="38" stroke="#0288d1" stroke-width="0.6" opacity="0.4"/>
+  <path d="M2,22 Q6,19 10,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+  <path d="M30,22 Q34,19 38,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+</svg>
+
+    浮冰 <span style="font-weight:400;font-size:16px;color:#4fc3f7;">Float</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">关于浮冰</a></li>
+    <li><a href="#features">产品功能</a></li>
+    <li><a href="#online-offline">线上线下</a></li>
+    <li><a href="#contact">联系我们</a></li>
+    <li><a href="#contact" class="nav-cta">加入等待列表</a></li>
+  </ul>
+</nav>
+
+<!-- ========== Hero ========== -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">[ICE] 女性友好社交平台 - 即将上线</div>
+      <h1>
+        在浮冰<br>说出不敢说的
+        <span>匿名 - 安全 - 真实</span>
+      </h1>
+      <p class="hero-sub">
+        浮冰是一个专为女性设计的社交平台。在这里，你可以匿名表达真实的想法，
+        和志同道合的姐妹深度交流，还能参加线下活动，把网上的友谊变成真实的陪伴。
+      </p>
+      <div class="hero-btns">
+        <a href="waitlist.html" class="btn-primary">加入等待列表</a>
+        <a href="#features" class="btn-outline">了解产品功能</a>
+      </div>
+    </div>
+    <div class="hero-phone">
+      <div class="phone-frame">
+        <div class="phone-screen" style="position:relative;">
+          <div class="phone-post">
+            <div class="phone-post-title">[FIRE] 热点榜</div>
+            <div class="phone-post-text">"35岁职场女性该如何规划职业发展？" 已有2.3k讨论</div>
+            <div class="phone-post-meta"><span>[CHAT] 2.3k</span><span>[HEART] 8.6k</span></div>
+          </div>
+          <div class="phone-post">
+            <div class="phone-post-title">[CHAT] 匿名论坛</div>
+            <div class="phone-post-text">"终于有一个可以放心说话的地方了，感谢浮冰。"</div>
+            <div class="phone-post-meta"><span>[CHAT] 486</span><span>[HEART] 3.2k</span></div>
+          </div>
+          <div class="phone-post">
+            <div class="phone-post-title">[DEBATE] 观点辩论</div>
+            <div class="phone-post-text">"远程办公对女性更友好吗？" 正反方激辩中</div>
+            <div class="phone-post-meta"><span>[CHAT] 1.1k</span><span>[HEART] 5.4k</span></div>
+          </div>
+          <div class="phone-fab"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 关于浮冰 ========== -->
+<section class="section" id="about">
+  <div class="section-header">
+    <div class="section-tag">关于浮冰</div>
+    <div class="section-title">为什么需要浮冰？</div>
+    <div class="section-sub">我们相信，每一位女性都值得一个可以自由表达的空间</div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h3>[ICE] 浮冰的初心</h3>
+      <p>
+        在现有的社交平台上，女性经常面临骚扰、人肉搜索、言论被断章取义的风险。
+        浮冰的创立初衷，就是为女性打造一个真正安全、友好的表达空间。
+      </p>
+      <br>
+      <p>
+        <strong style="color:#0288d1;">"浮冰"</strong> 意味着我们像浮冰一样，
+        为你提供一个可以立足、可以表达的安全平台——即使周围是冰冷的大海，
+        你依然可以在浮冰上安然站立、自由呼吸。
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">86%</div>
+        <div class="stat-label">女性曾在社交平台遭遇骚扰</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">46%</div>
+        <div class="stat-label">女性因担心被识别而回避敏感话题</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">72%</div>
+        <div class="stat-label">女性希望有专属社交空间</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">93%</div>
+        <div class="stat-label">用户愿意推荐浮冰给朋友</div>
+      </div>
+    </div>
+    <div style="grid-column: 1 / -1; text-align: center; margin-top: 8px;">
+      <span style="display:inline-block; background:#e1f5fe; color:#0277bd; font-size:12px; padding:4px 16px; border-radius:12px;">
+        ⚠️ 注：以上数据来源于浮冰团队前期针对 200 名女性用户的问卷调研，并非全体网民统计数据。
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 产品功能 ========== -->
+<section class="section features" id="features">
+  <div class="section-header">
+    <div class="section-tag">产品功能</div>
+    <div class="section-title">浮冰能为你做什么？</div>
+    <div class="section-sub">六大核心功能，全方位满足女性社交需求</div>
+  </div>
+  <div class="features-grid">
+    <!-- 匿名论坛 -->
+    <a href="feature_forum.html" class="feature-card">
+      <div class="feature-icon" style="background:#e1f5fe;">[CHAT]</div>
+      <h3>匿名论坛</h3>
+      <p>在这里，说话不需要勇气。完全匿名的表达空间，分享你的故事、困惑和观点，不用担心被识别。</p>
+      <span class="feature-link">了解详情 →</span>
+    </a>
+    <!-- 热点榜 -->
+    <a href="feature_hot.html" class="feature-card">
+      <div class="feature-icon" style="background:#e1f5fe;">[FIRE]</div>
+      <h3>热点榜</h3>
+      <p>每日更新的热点话题榜，聚焦女性关注的核心议题，帮你快速了解社区正在讨论什么。</p>
+      <span class="feature-link">了解详情 →</span>
+    </a>
+    <!-- 观点辩论 -->
+    <a href="feature_debate.html" class="feature-card">
+      <div class="feature-icon" style="background:#e1f5fe;">[DEBATE]</div>
+      <h3>观点辩论</h3>
+      <p>多元观点，理性碰撞。鼓励不同声音的平等表达，告别非黑即白的撕裂式讨论。</p>
+      <span class="feature-link">了解详情 →</span>
+    </a>
+    <!-- 互助前台 -->
+    <a href="feature_mutual.html" class="feature-card">
+      <div class="feature-icon" style="background:#e1f5fe;">[HANDSHAKE]</div>
+      <h3>互助前台</h3>
+      <p>你不是一个人在战斗。公开互助平台，让每一位需要帮助的女性都能得到支持。</p>
+      <span class="feature-link">了解详情 →</span>
+    </a>
+    <!-- 线下活动 -->
+    <a href="feature_offline.html" class="feature-card">
+      <div class="feature-icon" style="background:#e1f5fe;">[HOUSE]</div>
+      <h3>线下活动</h3>
+      <p>从线上相识，到线下相连。在城市核心地段打造女性专属社交空间，参加读书会、沙龙、工作坊。</p>
+      <span class="feature-link">了解详情 →</span>
+    </a>
+    <!-- 内容审核 -->
+    <a href="feature_audit.html" class="feature-card">
+      <div class="feature-icon" style="background:#e1f5fe;">[SHIELD]</div>
+      <h3>内容审核</h3>
+      <p>安全社区，从审核开始。AI+人工双重审核机制，确保社区环境友好、安全、无骚扰。</p>
+      <span class="feature-link">了解详情 →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ========== 线上线下对比 ========== -->
+<section class="section" id="online-offline">
+  <div class="section-header">
+    <div class="section-tag">独特优势</div>
+    <div class="section-title">线上遇见，线下相连</div>
+    <div class="section-sub">浮冰不只是另一个社交 App，我们让虚拟的友谊落地为真实的陪伴</div>
+  </div>
+  <div class="compare-grid">
+    <div class="compare-card" style="background:linear-gradient(135deg,#e1f5fe,#fff);">
+      <h3 style="color:#0288d1;">[GLOBE] 线上社区</h3>
+      <ul>
+        <li>[CHAT] <strong>匿名论坛</strong>——无压力表达真实想法</li>
+        <li>[FIRE] <strong>热点榜</strong>——每日更新女性关注话题</li>
+        <li>[DEBATE] <strong>观点辩论</strong>——多元观点理性碰撞</li>
+        <li>[HANDSHAKE] <strong>互助前台</strong>——公开互助，传递女性力量</li>
+        <li>[SHIELD] <strong>安全保障</strong>——AI+人工双重审核</li>
+      </ul>
+    </div>
+    <div class="compare-card" style="background:linear-gradient(135deg,#f8fdff,#e1f5fe);">
+      <h3 style="color:#0277bd;">[HOUSE] 线下空间</h3>
+      <ul>
+        <li>[MAP] <strong>城市核心地段</strong>——专属女性社交空间</li>
+        <li>[BOOK] <strong>读书会</strong>——和志同道合的姐妹深度交流</li>
+        <li>[ART] <strong>主题沙龙</strong>——职场、情感、生活多元话题</li>
+        <li>[TOOL] <strong>工作坊</strong>——技能分享，共同成长</li>
+        <li>[HANDSHAKE] <strong>同城匹配</strong>——智能推荐附近的姐妹</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="section" id="contact">
+  <div class="cta">
+    <h2>准备好加入浮冰了吗？</h2>
+    <p>加入等待列表，成为浮冰首批用户，抢先体验女性友好社交新方式</p>
+    <a href="waitlist.html" class="cta-btn">立即加入等待列表 →</a>
+  </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;color:#0288d1;margin-bottom:12px;">
+        
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <line x1="2" y1="22" x2="38" y2="22" stroke="#0288d1" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <polygon points="8,22 20,38 32,22" fill="#b3e5fc" stroke="#0288d1" stroke-width="1.2"/>
+  <polygon points="12,22 20,6 28,22" fill="#e1f5fe" stroke="#0288d1" stroke-width="1.2"/>
+  <line x1="20" y1="6" x2="20" y2="38" stroke="#0288d1" stroke-width="0.6" opacity="0.4"/>
+  <path d="M2,22 Q6,19 10,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+  <path d="M30,22 Q34,19 38,22" stroke="#4fc3f7" stroke-width="1" fill="none"/>
+</svg>
+
+        浮冰 <span style="font-weight:400;font-size:16px;color:#4fc3f7;">Float</span>
+      </div>
+      <p>浮冰是一个专为女性设计的社交平台，让每一位女性都能在安全、友好的环境中自由表达、深度交流。</p>
+    </div>
+    <div>
+      <h4>产品功能</h4>
+      <ul>
+        <li><a href="feature_forum.html">匿名论坛</a></li>
+        <li><a href="feature_hot.html">热点榜</a></li>
+        <li><a href="feature_debate.html">观点辩论</a></li>
+        <li><a href="feature_mutual.html">互助前台</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>了解更多</h4>
+      <ul>
+        <li><a href="feature_offline.html">线下活动</a></li>
+        <li><a href="feature_audit.html">内容审核</a></li>
+        <li><a href="#about">关于浮冰</a></li>
+        <li><a href="#contact">联系我们</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>联系我们</h4>
+      <ul>
+        <li>[EMAIL] hello@fubing.com</li>
+        <li>[MAP] 中国 - 广州</li>
+        <li>[CLOCK] 工作日 9:00-18:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>[COPY] 2026 浮冰 Float. All rights reserved. 女性友好社交平台</span>
+    <span>[ICP] 粤ICP备XXXXXXXX号</span>
+  </div>
+</footer>
+
+<script>
+  // 导航滚动效果
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+  });
+  // 平滑滚动
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
